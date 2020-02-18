@@ -2,6 +2,7 @@
 import React from 'react';
 import { fieldsEnum } from './finder';
 import AddressTypeahead from './AddressTypeahead.component';
+import './styles.css';
 
 type AddressFormInputPropType = {
     values: {
