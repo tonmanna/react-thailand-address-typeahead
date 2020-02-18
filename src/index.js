@@ -14,49 +14,53 @@ type AddressFormInputPropType = {
     renderResult: (data) => React.Component;
 }
 class AddressForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      addressObj: undefined,
-    };
-    this.setAddressObj = this.setAddressObj.bind(this);
-  }
-
-  setAddressObj(addressObj) {
-    this.setState({ addressObj });
-  }
-  props: AddressFormInputPropType;
-  render() {
-    const { addressObj } = this.state;
-    return (<div>
-      {
-        Object.keys(fieldsEnum).map((key) => {
-          let name;
-          switch (fieldsEnum[key]) {
-            case 'd': name = 'ตำบล'; break;
-            case 'a': name = 'อำเภอ'; break;
-            case 'p': name = 'จังหวัด'; break;
-            case 'z': name = 'รหัสไปรษณีย์'; break;
-            default: name = ''; break;
-          }
-          return (
-            <div key={key} className="typeahead-address-container">
-              <label className="typeahead-address-label" htmlFor="district">{name}</label>
-              <AddressTypeahead
-                renderResult={this.props.renderResult}
-                onOptionSelected={(result) => {
-                  this.setAddressObj(result);
-                  this.props.onAddressSelected(result);
-                }}
-                value={addressObj ? addressObj[fieldsEnum[key]] : ''}
-                fieldType={fieldsEnum[key]}
-              />
-            </div>
-          );
-        })
+    constructor(props) {
+        super(props);
+        this.state = {
+            addressObj: undefined,
+        };
+        this.setAddressObj = this.setAddressObj.bind(this);
     }
-    </div>);
-  }
+
+    componentDidMount() {
+        this.setAddressObj(this.props.value);
+    }
+
+    setAddressObj(addressObj) {
+        this.setState({ addressObj });
+    }
+    props: AddressFormInputPropType;
+    render() {
+        const { addressObj } = this.state;
+        return (<div>
+            {
+                Object.keys(fieldsEnum).map((key) => {
+                    let name;
+                    switch (fieldsEnum[key]) {
+                        case 'd': name = 'ตำบล'; break;
+                        case 'a': name = 'อำเภอ'; break;
+                        case 'p': name = 'จังหวัด'; break;
+                        case 'z': name = 'รหัสไปรษณีย์'; break;
+                        default: name = ''; break;
+                    }
+                    return (
+                        <div key={key} className="typeahead-address-container">
+                            <label className="typeahead-address-label" htmlFor="district">{name}</label>
+                            <AddressTypeahead
+                                renderResult={this.props.renderResult}
+                                onOptionSelected={(result) => {
+                                    this.setAddressObj(result);
+                                    this.props.onAddressSelected(result);
+                                }}
+                                value={addressObj ? addressObj[fieldsEnum[key]] : ''}
+                                fieldType={fieldsEnum[key]}
+                            />
+                        </div>
+                    );
+                })
+            }
+        </div>);
+    }
 }
 
 export default AddressForm;
