@@ -27,8 +27,10 @@ class AddressForm extends React.Component {
         this.setAddressObj(this.props.value);
     }
 
-    componentDidUpdate() {
-        this.setAddressObj(this.props.value);
+    componentDidUpdate(prevProp, prevState) {
+        if (JSON.stringify(this.props.value) !== JSON.stringify(this.state.addressObj)) {
+            this.setAddressObj(this.props.value);
+        }
     }
 
     setAddressObj(addressObj) {
